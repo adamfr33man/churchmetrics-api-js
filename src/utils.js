@@ -86,7 +86,12 @@ class Utils {
           response += chunk;
         });
         res.on('end', function() {
-          response = JSON.parse(response);
+          try {
+            response = JSON.parse(response);
+          } catch(e) {
+            reject(response);
+          }
+
           if(res.statusCode === 201) {
             resolve(response);
           } else {

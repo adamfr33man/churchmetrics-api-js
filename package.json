@@ -9,7 +9,8 @@
   "author": "Adam Freeman <shavenyaknz@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "jasmine": "^2.6.0"
+    "jasmine": "^2.6.0",
+    "jasmine-spec-reporter": "^4.2.1"
   },
   "dependencies": {
     "prettyjson": "^1.2.1"

@@ -1,7 +1,8 @@
 const Utils = require('./utils');
 
 const Users = require('./users'),
-			Campuses = require('./campuses');
+      Campuses = require('./campuses'),
+      Categories = require('./categories');
 
 class ChurchMetrics {
 	constructor(credentials) {
@@ -10,7 +11,8 @@ class ChurchMetrics {
 		this.utils = new Utils(this.credentials, true);
 
 		this.users = new Users(this.utils);
-		this.campuses = new Campuses(this.utils);
+    this.campuses = new Campuses(this.utils);
+    this.categories = new Categories(this.utils);
 	}
 }
 
