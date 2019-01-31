@@ -26,7 +26,7 @@ describe("Categories Specs", function() {
         'kind': 'Attendance'
       });
     } catch(e) {
-      console.error(e);
+      fail(e);
     }
 
     expect(category).toBeDefined();
@@ -35,12 +35,13 @@ describe("Categories Specs", function() {
   it("should edit the new category", async function() {
     try {
       let newName = 'Adam Test ?';
-      let editedCategory = await churchMetrics.categories.edit(category.id, {
+      await churchMetrics.categories.edit(category.id, {
         'name': newName
       });
+      let editedCategory = await churchMetrics.categories.get(category.id);
       expect(editedCategory.name).toEqual(newName);
     } catch(e) {
-      console.error(e);
+     fail(e);
     }
   });
 
@@ -55,6 +56,5 @@ describe("Categories Specs", function() {
     } catch(e) {
       expect(e).toBeDefined();
     }
-
   });
 });

@@ -10,7 +10,7 @@ const pageSize = 5,
 class Utils {
   constructor(credentials, debug = true) {
     this.credentials = credentials;
-    this.debug = true;
+    this.debug = debug;
 
     this.options = {
       host: apiBase,
@@ -133,12 +133,6 @@ class Utils {
           response += chunk;
         });
         res.on('end', function() {
-          try {
-            response = JSON.parse(response);
-          } catch(e) {
-            reject(response);
-          }
-
           if(res.statusCode === 204) {
             resolve(response);
           } else {

@@ -6,7 +6,6 @@ const churchMetrics = new ChurchMetrics(credentials);
 
 async function main() {
   // users();
-  campuses();
 }
 
 async function users() {
@@ -33,37 +32,6 @@ async function users() {
   console.dir(await churchMetrics.users.edit('77463', {
     'role': 'staff'
   }));
-}
-
-async function campuses() {
-  let campus;
-
-  console.dir(await churchMetrics.campuses.getAll());
-
-  console.dir(await churchMetrics.campuses.get('93044'));
-
-  try {
-    campus = await churchMetrics.campuses.create({
-      'slug': 'Campus 2',
-      'timezone': 'Wellington'
-    });
-    console.dir(campus);  
-  } catch(e) {
-    console.error(e);
-  }
-
-  try {
-    console.dir(await churchMetrics.campuses.edit(campus.id, {
-      'slug': 'Campus 3',
-      'description': 'Second one ?'
-    }));
-  } catch(e) {
-    console.error(e);
-  }
-
-  console.dir(await churchMetrics.campuses.delete(campus.id));
-
-  console.dir(await churchMetrics.campuses.getAll());
 }
 
 main();
