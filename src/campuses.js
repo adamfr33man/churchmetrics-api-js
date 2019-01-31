@@ -14,7 +14,7 @@ class Campuses {
 	}
 
 	async create(data) {
-		console.error('Seems like Create doesn\'t work');
+		console.error('create');
 		return await this.utils.httpPOST(`/api/v1/campuses.json`, data);
 	}
 
@@ -23,8 +23,9 @@ class Campuses {
 		return await this.utils.httpPUT(`/api/v1/campuses/${id}.json`, data);
 	}
 
-	async delete() {
-		console.log('delete');
+	async delete(id) {
+    console.log('delete');
+    return await this.utils.httpDELETE(`/api/v1/campuses/${id}.json`);
 	}
 }
 

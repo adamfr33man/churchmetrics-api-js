@@ -30,13 +30,29 @@ class Utils {
 
     return new Promise((resolve, reject) => {
       https.request(options, function(res) {
+        let response = '';
+
         if(this.debug) {
           console.log('STATUS: ' + res.statusCode);
           console.log('HEADERS: ' + prettyjson.render(res.headers));
         }
         res.setEncoding('utf8');
         res.on('data', function(chunk) {
-          resolve(chunk);
+          response += chunk;
+        });
+        res.on('end', function() {
+          try {
+            response = JSON.parse(response);
+          } catch(e) {
+            reject(response);
+          }
+
+          if(res.statusCode === 200) {
+            resolve(response);
+          } else {
+            console.error(`Saw ${res.statusCode}`);
+            reject(response);
+          }
         });
       }).end();
     });
@@ -57,7 +73,9 @@ class Utils {
   
     return new Promise((resolve, reject) => {
       let req = https.request(options, function(res) {
-        if(true) {
+        let response = '';
+
+        if(this.debug) {
           console.log('REQUEST: ' + prettyjson.render(options));
           console.log('DATA: ' + postData);
           console.log('STATUS: ' + res.statusCode);
@@ -65,7 +83,16 @@ class Utils {
         }
         res.setEncoding('utf8');
         res.on('data', function(chunk) {
-          resolve(chunk);
+          response += chunk;
+        });
+        res.on('end', function() {
+          response = JSON.parse(response);
+          if(res.statusCode === 201) {
+            resolve(response);
+          } else {
+            console.error(`Saw ${res.statusCode}`);
+            reject(response);
+          }
         });
       });
       req.write(postData);
@@ -88,7 +115,9 @@ class Utils {
   
     return new Promise((resolve, reject) => {
       let req = https.request(options, function(res) {
-        if(true) {
+        let response = '';
+
+        if(this.debug) {
           console.log('REQUEST: ' + prettyjson.render(options));
           console.log('DATA: ' + postData);
           console.log('STATUS: ' + res.statusCode);
@@ -96,11 +125,56 @@ class Utils {
         }
         res.setEncoding('utf8');
         res.on('data', function(chunk) {
-          resolve(chunk);
+          response += chunk;
+        });
+        res.on('end', function() {
+          try {
+            response = JSON.parse(response);
+          } catch(e) {
+            reject(response);
+          }
+
+          if(res.statusCode === 204) {
+            resolve(response);
+          } else {
+            console.error(`Saw ${res.statusCode}`);
+            reject(response);
+          }
         });
       });
       req.write(postData);
       req.end();
+    });
+  }
+
+  async httpDELETE(path) {
+    let options = {
+      ...this.options,
+      'path': path,
+      'method': 'DELETE'
+    };
+
+    return new Promise((resolve, reject) => {
+      https.request(options, function(res) {
+        let response = '';
+
+        if(this.debug) {
+          console.log('STATUS: ' + res.statusCode);
+          console.log('HEADERS: ' + prettyjson.render(res.headers));
+        }
+        res.setEncoding('utf8');
+        res.on('data', function(chunk) {
+          response += chunk;
+        });
+        res.on('end', function() {
+          if(res.statusCode === 204) {
+            resolve(response);
+          } else {
+            console.error(`Saw ${res.statusCode}`);
+            reject(response);
+          }
+        });
+      }).end();
     });
   }
 
